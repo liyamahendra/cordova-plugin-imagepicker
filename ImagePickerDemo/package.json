@@ -14,12 +14,14 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^10.1.1",
-    "cordova-plugin-imagepicker": "file:../ImagePicker"
+    "cordova-plugin-imagepicker": "github:liyamahendra/cordova-plugin-imagepicker"
   },
   "cordova": {
     "platforms": [
       "android"
     ],
-    "plugins": {}
+    "plugins": {
+      "com.devapps.imagepicker": {}
+    }
   }
 }
