@@ -7,3 +7,6 @@ The plugin allows you to Pick an image from the Gallery. It also allows to Crop 
 
 # Installation
 
+```
+cordova plugin add https://github.com/liyamahendra/cordova-plugin-imagepicker
+```

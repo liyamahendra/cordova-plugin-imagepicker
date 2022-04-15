@@ -6,8 +6,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Base64;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -23,6 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+
+enum OUTPUT_TYPE {
+    FILE_URI,
+    BASE64_STRING
+}
 
 public class ImagePicker extends CordovaPlugin {
 
@@ -32,6 +41,9 @@ public class ImagePicker extends CordovaPlugin {
 
     private final int PERMISSION_REQUEST_CODE = 100;
 
+    int desiredWidth = 320;
+    int desiredHeight = 480;
+    OUTPUT_TYPE outputType = OUTPUT_TYPE.FILE_URI;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -52,22 +64,24 @@ public class ImagePicker extends CordovaPlugin {
             return true;
         } else if (action.equals("getPictures")) {
 
-            final JSONObject params = args.getJSONObject(0);
-
-            int desiredWidth = 320;
-            int desiredHeight = 480;
-            int outputType = 0;
-
-
-            if (params.has("width")) {
-                desiredWidth = params.getInt("width");
-            }
-            if (params.has("height")) {
-                desiredHeight = params.getInt("height");
+            JSONObject params = null;
+            if (args.length() > 0) {
+                params = args.getJSONObject(0);
             }
 
-            if (params.has("outputType")) {
-                outputType = params.getInt("outputType");
+            if(params != null) {
+                if (params.has("width")) {
+                    desiredWidth = params.getInt("width");
+                }
+                if (params.has("height")) {
+                    desiredHeight = params.getInt("height");
+                }
+
+                if (params.has("outputType")) {
+                    if(params.getString("outputType").equals("BASE64_STRING")) {
+                        outputType = OUTPUT_TYPE.BASE64_STRING;
+                    }
+                }
             }
 
             if (hasReadPermission()) {
@@ -99,17 +113,28 @@ public class ImagePicker extends CordovaPlugin {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     PERMISSION_REQUEST_CODE);
         }
-
-        mCallbackContext.success();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if(requestCode == Activity.RESULT_OK) {
+        if(resultCode == Activity.RESULT_OK) {
             Uri uri = intent.getData();
-            mCallbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, uri.toString()));
-        } else if(requestCode == com.github.dhaval2404.imagepicker.ImagePicker.RESULT_ERROR) {
+
+            String imageResult = uri.toString();
+            if(outputType == OUTPUT_TYPE.BASE64_STRING) {
+                Bitmap bm = BitmapFactory.decodeFile(uri.getPath());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                byte[] byteArrayImage = baos.toByteArray();
+
+                String extension = uri.getPath().substring(uri.getPath().lastIndexOf(".") + 1);
+
+                imageResult = "data:image/" + extension + ";base64, " + Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+            }
+
+            mCallbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, imageResult));
+        } else if(resultCode == com.github.dhaval2404.imagepicker.ImagePicker.RESULT_ERROR) {
             Toast.makeText(mContext, com.github.dhaval2404.imagepicker.ImagePicker.getError(intent), Toast.LENGTH_SHORT).show();
             mCallbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, com.github.dhaval2404.imagepicker.ImagePicker.getError(intent)));
         } else {

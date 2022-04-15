@@ -37,13 +37,15 @@
         <title>Hello World</title>
     </head>
     <body>
-        <div class="app">
+        <div>
             <input type="button" value="Has Permissions" id="btnHasPermissions" />
             <input type="button" value="Request Permissions" id="btnRequestPermissions" />
             <input type="button" value="Choose Image" id="btnChooseImage" />
         </div>
+        <br />
         <div>
-            
+            <span id="file_uri"></span>
+            <img id="image" />
         </div>
         <script src="cordova.js"></script>
         <script src="js/index.js"></script>

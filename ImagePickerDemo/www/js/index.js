@@ -50,9 +50,18 @@ function requestPermissions() {
 }
 
 function chooseImage() {
+    var options = {};
+    options.width = 320;
+    options.height = 640;
+    options.outputType = "BASE64_STRING"; // Or BASE64_STRING
+
     cordova.plugins.ImagePicker.getPictures(function(successResponse) {
-        alert(successResponse);
+        if(options.outputType == "FILE_URI") {
+            document.getElementById("file_uri").innerHTML = successResponse;
+        } else if(options.outputType == "BASE64_STRING") {
+            document.getElementById("image").src = successResponse;
+        }
     }, function(errorResponse) {
         alert(errorResponse);
-    });
+    }, options);
 }
