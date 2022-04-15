@@ -18,7 +18,7 @@
 
 
         <config-file parent="/*" target="AndroidManifest.xml" />
-        <source-file src="src/android/ImagePicker.java" target-dir="src/com/devapps/imagepicker/ImagePicker" />
+        <source-file src="src/android/ImagePicker.java" target-dir="src/com/devapps/imagepicker" />
 
         <framework src="src/android/imagepicker-build.gradle" custom="true" type="gradleReference"/>
 

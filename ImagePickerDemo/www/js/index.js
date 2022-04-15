@@ -24,6 +24,10 @@ document.addEventListener('deviceready', onDeviceReady, false);
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
-    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    document.getElementById('deviceready').classList.add('ready');
+    var btnChooseImage = document.getElementById("btnChooseImage");
+    btnChooseImage.addEventListener("click", chooseImage);
+}
+
+function chooseImage() {
+    alert("Choose image selected");
 }
