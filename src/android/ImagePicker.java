@@ -125,7 +125,6 @@ public class ImagePicker extends CordovaPlugin {
             if(outputType == OUTPUT_TYPE.BASE64_STRING) {
                 Bitmap bm = BitmapFactory.decodeFile(uri.getPath());
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
                 byte[] byteArrayImage = baos.toByteArray();
 
                 String extension = uri.getPath().substring(uri.getPath().lastIndexOf(".") + 1);
