@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="com.devapps.imagepicker" version="1.0.0">
+    <name>ImagePicker</name>
+    <js-module name="ImagePicker" src="www/ImagePicker.js">
+        <clobbers target="cordova.plugins.ImagePicker" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="ImagePicker">
+                <param name="android-package" value="com.devapps.imagepicker.ImagePicker" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+
+
+        <config-file parent="/*" target="AndroidManifest.xml" />
+        <source-file src="src/android/ImagePicker.java" target-dir="src/com/devapps/imagepicker/ImagePicker" />
+
+        <framework src="com.github.dhaval2404:imagepicker:2.1" />
+        <framework src="com.github.dhaval2404:imagepicker-support:1.7.1" />
+
+    </platform>
+
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="ImagePicker">
+                <param name="ios-package" value="ImagePicker" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/ImagePicker.m" />
+
+        <preference name="PHOTO_LIBRARY_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
+          <string>$PHOTO_LIBRARY_USAGE_DESCRIPTION</string>
+        </config-file>
+
+        <framework src="Accelerate.framework" />
+        <framework src="Security.framework" />
+        <framework src="Photos.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="QuartzCore.framework" />
+        
+    </platform>
+</plugin>
