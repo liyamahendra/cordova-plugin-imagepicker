@@ -20,8 +20,9 @@
         <config-file parent="/*" target="AndroidManifest.xml" />
         <source-file src="src/android/ImagePicker.java" target-dir="src/com/devapps/imagepicker/ImagePicker" />
 
-        <framework src="com.github.dhaval2404:imagepicker:2.1" />
-        <framework src="com.github.dhaval2404:imagepicker-support:1.7.1" />
+        <framework src="src/android/imagepicker-build.gradle" custom="true" type="gradleReference"/>
+
+        <framework src="com.github.Dhaval2404:ImagePicker:v2.1" />
 
     </platform>
 
