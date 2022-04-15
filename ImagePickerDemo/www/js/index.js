@@ -25,9 +25,34 @@ function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
     var btnChooseImage = document.getElementById("btnChooseImage");
+    var btnHasPermissions = document.getElementById("btnHasPermissions");
+    var btnRequestPermissions = document.getElementById("btnRequestPermissions");
+    
+    btnHasPermissions.addEventListener("click", hasPermissions);
+    btnRequestPermissions.addEventListener("click", requestPermissions);
     btnChooseImage.addEventListener("click", chooseImage);
 }
 
+function hasPermissions() {
+    cordova.plugins.ImagePicker.hasReadPermission(function(successResponse) {
+        alert(successResponse);
+    }, function(errorResponse) {
+        alert(errorResponse);
+    });
+}
+
+function requestPermissions() {
+    cordova.plugins.ImagePicker.requestReadPermission(function(successResponse) {
+        alert(successResponse);
+    }, function(errorResponse) {
+        alert(errorResponse);
+    });
+}
+
 function chooseImage() {
-    alert("Choose image selected");
+    cordova.plugins.ImagePicker.getPictures(function(successResponse) {
+        alert(successResponse);
+    }, function(errorResponse) {
+        alert(errorResponse);
+    });
 }
