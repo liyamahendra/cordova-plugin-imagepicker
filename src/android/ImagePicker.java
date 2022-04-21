@@ -88,8 +88,8 @@ public class ImagePicker extends CordovaPlugin {
                 cordova.setActivityResultCallback(this);
                 com.github.dhaval2404.imagepicker.ImagePicker.with(mCurrentActivity)
                         .galleryOnly()
-                        .crop()                    //Crop image(Optional), Check Customization for more option
-                        .maxResultSize(desiredWidth, desiredHeight)    //Final image resolution will be less than 1080 x 1080(Optional)
+                        .crop()                    
+                        .maxResultSize(desiredWidth, desiredHeight)    
                         .start();
             }
 
